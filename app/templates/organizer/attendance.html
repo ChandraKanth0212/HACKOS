@@ -1,0 +1,46 @@
+{% extends "dashboard/shell.html" %}
+{% block title %}Check-in | HACKOS{% endblock %}
+{% block page_title %}Attendance check-in{% endblock %}
+{% block page_subtitle %}Record and review attendance for {{ event.name }}.{% endblock %}
+{% block dashboard_content %}
+<div class="row g-4 mb-4">
+  <div class="col-md-4"><div class="card"><div class="card-body"><span class="text-muted">Checked in</span><strong class="d-block fs-2">{{ checked_in_count }}</strong><span class="text-muted">of {{ total_count }} participants</span></div></div></div>
+  <div class="col-md-8"><div class="card"><div class="card-body"><h2 class="h5">Manual check-in</h2><form method="post" action="{{ url_for('organizer.attendance_check_in') }}" class="row g-2">{{ check_in_form.hidden_tag() }}<div class="col-md-5">{{ check_in_form.participant_code.label(class="visually-hidden") }}{{ check_in_form.participant_code(class="form-control", placeholder="Participant code") }}</div><div class="col-md-5">{{ check_in_form.operation_id.label(class="visually-hidden") }}{{ check_in_form.operation_id(class="form-control", placeholder="Operation ID (optional)") }}</div><div class="col-md-2">{{ check_in_form.submit(class="btn btn-primary w-100") }}</div></form></div></div></div>
+</div>
+<div class="card mb-4"><div class="card-body"><h2 class="h5">QR scanner</h2><p class="text-muted">Camera scanning is optional. Use the manual code field if camera access is unavailable.</p><div id="qr-reader" class="mb-3" style="max-width:520px"></div><button class="btn btn-secondary me-2" type="button" id="start-scanner">Start camera</button><button class="btn btn-outline-secondary" type="button" id="stop-scanner">Stop camera</button><div id="scanner-status" class="small text-muted mt-2" role="status">Camera is stopped.</div><form id="qr-check-in-form" method="post" action="{{ url_for('organizer.attendance_check_in_qr') }}" class="d-none">{{ qr_form.hidden_tag() }}</form></div></div>
+<form method="get" class="d-flex gap-2 mb-3"><label class="visually-hidden" for="attendance-search">Search participants</label><input id="attendance-search" class="form-control" name="q" value="{{ search }}" placeholder="Search name, email or participant code"><button class="btn btn-secondary" type="submit">Search</button></form>
+{% if participants %}<div class="table-responsive"><table class="table align-middle"><thead><tr><th>Participant</th><th>Email</th><th>Code</th><th>Status</th><th>Checked in at</th><th>Operator</th></tr></thead><tbody>{% for participant in participants %}{% set record = attendance_records.get(participant.id) %}<tr><td>{{ participant.full_name }}</td><td>{{ participant.email_normalized }}</td><td>{{ participant.participant_code }}</td><td>{{ "Checked in" if record else "Not checked in" }}</td><td>{{ record.checked_in_at if record else "—" }}</td><td>{{ record.staff_user.email if record else "—" }}</td></tr>{% endfor %}</tbody></table></div>{% else %}<div class="empty-state">No participants match this search.</div>{% endif %}
+{% endblock %}
+{% block extra_scripts %}
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script>
+(() => {
+  let scanner;
+  const status = document.getElementById("scanner-status");
+  const form = document.getElementById("qr-check-in-form");
+  const token = form.querySelector('input[name="token"]');
+  document.getElementById("start-scanner").addEventListener("click", async () => {
+    if (typeof Html5Qrcode === "undefined") { status.textContent = "Scanner library unavailable. Use manual check-in."; return; }
+    if (scanner) return;
+    scanner = new Html5Qrcode("qr-reader");
+    try {
+      await scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, async (value) => {
+        token.value = value;
+        status.textContent = "QR detected. Submitting check-in…";
+        await scanner.stop();
+        scanner = null;
+        form.submit();
+      }, () => {});
+      status.textContent = "Camera is active. Point it at a participant QR code.";
+    } catch (error) {
+      scanner = null;
+      status.textContent = "Camera unavailable. Allow camera access or use manual check-in.";
+    }
+  });
+  document.getElementById("stop-scanner").addEventListener("click", async () => {
+    if (scanner) { await scanner.stop(); scanner = null; }
+    status.textContent = "Camera is stopped.";
+  });
+})();
+</script>
+{% endblock %}

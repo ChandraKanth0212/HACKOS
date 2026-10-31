@@ -1,0 +1,20 @@
+{% extends "dashboard/shell.html" %}
+{% block title %}{{ heading }} | HACKOS{% endblock %}
+{% block page_title %}{{ heading }}{% endblock %}
+{% block page_subtitle %}All values are validated on the server before saving.{% endblock %}
+{% block dashboard_content %}
+<form method="post" class="card" novalidate>
+  <div class="card-body">
+    {{ form.hidden_tag() }}
+    {% for field in [form.name, form.description, form.venue, form.timezone, form.starts_at, form.ends_at, form.registration_starts_at, form.registration_ends_at, form.capacity, form.team_size_min, form.team_size_max, form.status] %}
+    <div class="mb-3">
+      {{ field.label(class="form-label") }}
+      {% if field.type == "TextAreaField" %}{{ field(class="form-control", rows="3") }}{% else %}{{ field(class="form-control" if field.type != "SelectField" else "form-select") }}{% endif %}
+      {% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+    </div>
+    {% endfor %}
+    {{ form.submit(class="btn btn-primary") }}
+    <a class="btn btn-link" href="{{ url_for('organizer.events') }}">Cancel</a>
+  </div>
+</form>
+{% endblock %}

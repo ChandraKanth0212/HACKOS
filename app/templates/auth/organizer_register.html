@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Host a hackathon · HACKOS{% endblock %}
+{% block body %}
+<main class="auth-page">
+  <section class="auth-card" aria-labelledby="organizer-register-title">
+    <a class="brand brand-lg" href="{{ url_for('main.home') }}"><span class="brand-mark">H</span> HACKOS</a>
+    <p class="eyebrow">Start your event workspace</p>
+    <h1 id="organizer-register-title">Host a hackathon</h1>
+    <p class="text-muted">Create your organizer account, then configure your first event.</p>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}<div class="alert alert-{{ category }}" role="alert">{{ message }}</div>{% endfor %}
+    {% endwith %}
+    <form method="post" novalidate>
+      {{ form.hidden_tag() }}
+      <div class="mb-3">{{ form.name.label(class="form-label") }}{{ form.name(class="form-control", autocomplete="name", autofocus=true, placeholder="Your name") }}{% for error in form.name.errors %}<div class="field-error">{{ error }}</div>{% endfor %}</div>
+      <div class="mb-3">{{ form.email.label(class="form-label") }}{{ form.email(class="form-control", autocomplete="email", placeholder="you@example.com") }}{% for error in form.email.errors %}<div class="field-error">{{ error }}</div>{% endfor %}</div>
+      <div class="mb-3">{{ form.password.label(class="form-label") }}{{ form.password(class="form-control", autocomplete="new-password", placeholder="At least 12 characters") }}{% for error in form.password.errors %}<div class="field-error">{{ error }}</div>{% endfor %}</div>
+      <div class="mb-4">{{ form.password_confirmation.label(class="form-label") }}{{ form.password_confirmation(class="form-control", autocomplete="new-password", placeholder="Repeat your password") }}{% for error in form.password_confirmation.errors %}<div class="field-error">{{ error }}</div>{% endfor %}</div>
+      {{ form.submit(class="btn btn-primary w-100 btn-lg") }}
+    </form>
+    <p class="form-note">Already have an organizer account? <a href="{{ url_for('auth.login') }}">Sign in</a></p>
+  </section>
+</main>
+{% endblock %}

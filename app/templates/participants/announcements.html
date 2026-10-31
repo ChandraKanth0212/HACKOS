@@ -1,0 +1,7 @@
+{% extends "dashboard/shell.html" %}
+{% block title %}Announcements | HACKOS{% endblock %}
+{% block page_title %}Announcements{% endblock %}
+{% block page_subtitle %}Published updates for {{ event.name }}.{% endblock %}
+{% block dashboard_content %}
+{% if announcements %}{% for announcement in announcements %}<article class="card mb-3"><div class="card-body"><p class="eyebrow">{{ announcement.published_at }}</p><h2 class="h5">{{ announcement.title }}</h2><p class="mb-0">{{ announcement.body }}</p></div></article>{% endfor %}{% else %}<div class="empty-state">There are no published announcements yet.</div>{% endif %}
+{% endblock %}

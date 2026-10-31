@@ -1,0 +1,11 @@
+{% extends "dashboard/shell.html" %}
+{% block content %}
+<h1>{{ submission.project_title }}</h1>
+<p>Team: {{ submission.team.name }} ({{ submission.team.team_code }})</p>
+<p>Status: {{ submission.status|title }}</p>
+<p>Submitted: {{ to_event_timezone(submission.submitted_at, event_timezone).strftime("%Y-%m-%d %H:%M") }}</p>
+<p>{{ submission.description }}</p>
+{% if submission.repository_url %}<p><a href="{{ submission.repository_url }}">Repository</a></p>{% endif %}
+{% if submission.demo_url %}<p><a href="{{ submission.demo_url }}">Demo</a></p>{% endif %}
+<a href="{{ url_for('organizer.submission_edit', submission_id=submission.id) }}">Edit</a>
+{% endblock %}

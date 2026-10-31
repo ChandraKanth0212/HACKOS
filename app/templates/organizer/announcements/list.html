@@ -1,0 +1,12 @@
+{% extends "dashboard/shell.html" %}
+{% block title %}Announcements | HACKOS{% endblock %}
+{% block page_title %}Announcements{% endblock %}
+{% block page_subtitle %}Publish updates for {{ event.name }}.{% endblock %}
+{% block dashboard_content %}
+<div class="d-flex justify-content-end mb-4"><a class="btn btn-primary" href="{{ url_for('organizer.announcement_create') }}">New announcement</a></div>
+{% if announcements %}
+<div class="table-responsive"><table class="table align-middle"><thead><tr><th>Title</th><th>Status</th><th>Published</th><th>Updated</th><th>Actions</th></tr></thead><tbody>
+{% for announcement in announcements %}<tr><td><strong>{{ announcement.title }}</strong><br><span class="text-muted">{{ announcement.body|truncate(100) }}</span></td><td>{{ announcement.status|capitalize }}</td><td>{{ announcement.published_at or "—" }}</td><td>{{ announcement.updated_at }}</td><td><a class="btn btn-sm btn-outline-primary" href="{{ url_for('organizer.announcement_edit', announcement_id=announcement.id) }}">Edit</a><form method="post" action="{{ url_for('organizer.announcement_delete', announcement_id=announcement.id) }}" class="d-inline">{{ logout_form.hidden_tag() }}<button class="btn btn-sm btn-outline-danger" type="submit">Delete</button></form></td></tr>{% endfor %}
+</tbody></table></div>
+{% else %}<div class="empty-state">No announcements yet. Create one to communicate with participants.</div>{% endif %}
+{% endblock %}

@@ -2,21 +2,46 @@
 {% block title %}Sign in · HACKOS{% endblock %}
 {% block body %}
 <main class="auth-page">
-  <section class="auth-card" aria-labelledby="login-title">
-    <a class="brand brand-lg" href="{{ url_for('main.home') }}"><span class="brand-mark">H</span> HACKOS</a>
-    <p class="eyebrow">Hackathon operations platform</p>
-    <h1 id="login-title">Welcome back</h1>
-    <p class="text-muted">Sign in to continue to your event workspace.</p>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% for category, message in messages %}<div class="alert alert-{{ category }}" role="alert">{{ message }}</div>{% endfor %}
-    {% endwith %}
-    <form method="post" novalidate>
-      {{ form.hidden_tag() }}
-      <div class="mb-3">{{ form.email.label(class="form-label") }}{{ form.email(class="form-control", autocomplete="email", autofocus=true, placeholder="you@example.com") }}{% for error in form.email.errors %}<div class="field-error">{{ error }}</div>{% endfor %}</div>
-      <div class="mb-4">{{ form.password.label(class="form-label") }}{{ form.password(class="form-control", autocomplete="current-password", placeholder="Your password") }}{% for error in form.password.errors %}<div class="field-error">{{ error }}</div>{% endfor %}</div>
-      {{ form.submit(class="btn btn-primary w-100 btn-lg") }}
-    </form>
-    <p class="form-note">Your role is assigned securely from your account.</p>
-  </section>
+  <div class="auth-shell auth-login-shell">
+    <section class="auth-story" aria-label="HACKOS sign-in introduction">
+      <a class="brand brand-lg" href="{{ url_for('main.home') }}"><span class="brand-mark">H</span> HACKOS</a>
+      <p class="eyebrow"><span class="auth-status-dot"></span> Event operations platform</p>
+      <h1>Keep the room moving.<br><em>Stay in control.</em></h1>
+      <p>One workspace for the people, projects and decisions that make your hackathon happen.</p>
+      <div class="auth-story-flow" aria-label="HACKOS workflow">
+        <span>Registration</span><i></i><span>Check-in</span><i></i><span>Judging</span><i></i><span>Results</span>
+      </div>
+      <a class="auth-back-link" href="{{ url_for('main.home') }}">← Back to HACKOS</a>
+    </section>
+    <section class="auth-card" aria-labelledby="login-title">
+      <div class="auth-card-heading">
+        <p class="eyebrow">Secure workspace access</p>
+        <h2 id="login-title">Welcome back</h2>
+        <p class="text-muted">Sign in to continue to your event workspace.</p>
+      </div>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}<div class="alert alert-{{ category }}" role="alert">{{ message }}</div>{% endfor %}
+      {% endwith %}
+      <form method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <div class="auth-field mb-3">
+          {{ form.email.label(class="form-label") }}
+          {{ form.email(class="form-control", autocomplete="email", autofocus=true, placeholder="you@example.com", required=true, aria_describedby="email-help") }}
+          <small id="email-help" class="auth-field-help">Use the email connected to your HACKOS account.</small>
+          {% for error in form.email.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+        </div>
+        <div class="auth-field mb-4">
+          {{ form.password.label(class="form-label") }}
+          {{ form.password(class="form-control", autocomplete="current-password", placeholder="Your password", required=true) }}
+          {% for error in form.password.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+        </div>
+        {{ form.submit(class="btn btn-primary w-100 btn-lg", value="Sign in to HACKOS") }}
+      </form>
+      <div class="auth-card-footer">
+        <p class="form-note">Your role and event access are assigned securely from your account.</p>
+        <p class="auth-register-prompt">Need an organizer workspace? <a href="{{ url_for('auth.organizer_register') }}">Create an account</a></p>
+      </div>
+    </section>
+  </div>
 </main>
 {% endblock %}

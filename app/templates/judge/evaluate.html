@@ -1,0 +1,24 @@
+{% extends "dashboard/shell.html" %}
+{% block content %}
+<h1>Evaluate {{ submission.project_title }}</h1>
+<p>Team: {{ submission.team.name }}</p>
+<p>{{ submission.description }}</p>
+{% if submission.repository_url %}<p><a href="{{ submission.repository_url }}">Repository</a></p>{% endif %}
+{% if submission.demo_url %}<p><a href="{{ submission.demo_url }}">Demo</a></p>{% endif %}
+<form method="post">
+  {{ form.hidden_tag() }}
+  {% for error in form.form_errors %}<div class="error">{{ error }}</div>{% endfor %}
+  {% for criterion in criteria %}
+  <fieldset>
+    <legend>{{ criterion.name }} (maximum {{ criterion.max_score }}{% if criterion.weight is not none %}, weight {{ criterion.weight }}{% endif %})</legend>
+    {% if criterion.description %}<p>{{ criterion.description }}</p>{% endif %}
+    <label for="{{ criterion.id }}">Score</label>
+    <input id="{{ criterion.id }}" name="{{ criterion.id }}" type="number" min="0" max="{{ criterion.max_score }}" step="0.01" value="{{ score_values[criterion.id].score if criterion.id in score_values else '' }}" {% if evaluation and evaluation.status == "submitted" %}disabled{% endif %}>
+    <label>Criterion comment <input name="comment_{{ criterion.id }}" value="{{ score_values[criterion.id].comment if criterion.id in score_values and score_values[criterion.id].comment else '' }}" {% if evaluation and evaluation.status == "submitted" %}disabled{% endif %}></label>
+  </fieldset>
+  {% endfor %}
+  {{ form.comments.label }} {{ form.comments(rows=5, disabled=(evaluation and evaluation.status == "submitted")) }}
+  {% if not evaluation or evaluation.status != "submitted" %}<button type="submit" name="submit_action" value="draft">Save draft</button><button type="submit" name="submit_action" value="submit">Submit evaluation</button>{% endif %}
+</form>
+{% if evaluation and evaluation.status == "submitted" %}<p>This evaluation is submitted and read-only. Total: {{ evaluation.total_score }}</p>{% endif %}
+{% endblock %}

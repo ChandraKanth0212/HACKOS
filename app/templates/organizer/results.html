@@ -1,0 +1,29 @@
+{% extends "dashboard/shell.html" %}
+{% block title %}Results | HACKOS{% endblock %}
+{% block page_title %}Leaderboard and results{% endblock %}
+{% block page_subtitle %}Event-scoped evaluation progress and publication controls.{% endblock %}
+{% block dashboard_content %}
+<p>Formula: normalized weighted criterion score, averaged across submitted judge evaluations. Draft and incomplete evaluations are excluded.</p>
+<form method="post" class="mb-3">
+  {{ publication_form.hidden_tag() }}
+  {% if published %}<button type="submit" name="published" value="0">Unpublish results</button>
+  {% else %}<button type="submit" name="published" value="1">Publish results</button>{% endif %}
+</form>
+{% if rows %}
+<table>
+  <thead><tr><th>Rank</th><th>Team</th><th>Project</th><th>Submitted judges</th><th>Average score</th><th>Status</th></tr></thead>
+  <tbody>
+  {% for row in rows %}
+  <tr>
+    <td>{{ row.rank if row.rank is not none else "Pending" }}</td>
+    <td>{{ row.team.name }}</td>
+    <td>{{ row.submission.project_title }}</td>
+    <td>{{ row.judge_count }}</td>
+    <td>{{ row.average_score if row.average_score is not none else "Pending" }}</td>
+    <td>{{ "Evaluated" if row.rank is not none else "Awaiting submitted evaluations" }}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}<p>No submissions are available for this event.</p>{% endif %}
+{% endblock %}

@@ -21,72 +21,85 @@ Deliver one complete vertical slice at a time. First create the app shell and da
 - [x] Create user model and password hashing.
 - [x] Implement login/logout.
 - [x] Implement Organizer, Participant and Judge role checks.
-- [ ] Add resource ownership checks for participant/team/submission routes.
+- [x] Add secure public organizer registration with server-assigned role and first-event ownership binding.
+- [x] Add resource ownership checks for participant/team/submission routes.
 - [x] Test unauthorized route and API access.
+
+### Event configuration and management
+- [x] List, view, create and edit organizer-authorized events.
+- [x] Validate event timezone, date ranges, capacity and team-size limits server-side.
+- [x] Store event-local date inputs as UTC timestamps.
+- [x] Record event create/update actions in the audit log.
 
 ## 3. P0 — Participant and team management
 
-- [ ] Build organizer participant list with search/filter.
-- [ ] Build participant create/edit form.
-- [ ] Normalize email and reject/flag duplicates.
-- [ ] Build team list and team detail.
-- [ ] Add/remove team members.
-- [ ] Validate membership and configured team-size rule.
-- [ ] Record team membership changes in audit log.
+- [x] Build organizer participant list with search/filter.
+- [x] Build participant create/edit form.
+- [x] Normalize email and reject duplicate registrations.
+- [x] Generate unique participant codes and associate participant accounts.
+- [x] Enforce registration window, event status and participant capacity.
+- [x] Record participant registration and edits in the audit log.
+
+- [x] Build team list and team detail.
+- [x] Add/remove/transfer team members with membership history.
+- [x] Validate membership and configured team-size rule.
+- [x] Record team membership changes in audit log.
 
 **Checkpoint acceptance:** Organizer can create multiple synthetic participants and teams, detect a duplicate registration and change team membership with a history entry.
 
 ## 4. P0 — Check-in
 
-- [ ] Generate a unique, non-guessable check-in token for each participant.
-- [ ] Render QR code for token.
-- [ ] Build check-in page with camera scan if feasible.
-- [ ] Add manual code entry fallback.
-- [ ] Implement authenticated check-in endpoint.
-- [ ] Add unique constraint/idempotency to prevent duplicate attendance.
-- [ ] Display checked-in/already-checked-in/invalid-code states.
+- [x] Generate a unique, non-guessable check-in credential for each participant.
+- [x] Render a QR code for the credential.
+- [x] Build an organizer check-in page with camera scan controls.
+- [x] Add manual participant-code entry fallback.
+- [x] Implement authenticated check-in endpoints.
+- [x] Enforce unique attendance and idempotent operations.
+- [x] Display checked-in/already-checked-in/invalid-code states.
 
 **Checkpoint acceptance:** A participant can be checked in from a valid token, and rescanning does not create a second attendance row.
 
 ## 5. P0 — Announcements and schedule
 
-- [ ] Build organizer announcement create/edit/publish flow.
-- [ ] Display published announcements to participants.
-- [ ] Build schedule item management.
-- [ ] Display event schedule with timezone.
-- [ ] Hide drafts from participant role.
+- [x] Build organizer announcement create/edit/publish/unpublish/delete flow.
+- [x] Display published announcements to participants.
+- [x] Build schedule item create/edit/delete management.
+- [x] Display event schedule with timezone.
+- [x] Hide drafts from participant role.
 
 ## 6. P0 — Project submissions
 
-- [ ] Build participant submission form.
-- [ ] Enforce team ownership.
-- [ ] Validate project fields and repository/demo URLs.
-- [ ] Save authoritative server timestamp.
-- [ ] Implement deadline and late-submission rule.
-- [ ] Display submission status to participant and organizer.
-- [ ] Test that one team cannot alter another team's submission.
+- [x] Build participant submission form.
+- [x] Enforce team ownership.
+- [x] Validate project fields and repository/demo URLs.
+- [x] Save authoritative server timestamp.
+- [x] Implement deadline and late-submission rule.
+- [x] Display submission status to participant and organizer.
+- [x] Test that one team cannot alter another team's submission.
 
 ## 7. P0 — Judging and results
 
 - [ ] Build rubric criterion configuration for organizer.
 - [ ] Validate that configured maximum scores/weights are sensible.
-- [ ] Build judge account and assignment management.
-- [ ] Show only assigned projects to each judge.
-- [ ] Build evaluation form with per-criterion score limits.
-- [ ] Save evaluation and audit event.
-- [ ] Implement documented aggregation formula.
-- [ ] Build organizer leaderboard with completion status.
-- [ ] Test score boundaries, judge restrictions and score calculation.
+- [x] Build judge account and assignment management.
+- [x] Show only assigned projects to each judge.
+- [x] Build evaluation form with per-criterion score limits.
+- [x] Save evaluation and audit event.
+- [x] Implement documented aggregation formula.
+- [x] Build organizer leaderboard with completion status.
+- [x] Test score boundaries, judge restrictions and score calculation.
 
 ## 8. P0 — Reports and audit
 
 - [ ] Add audit log for participant/team edits, attendance corrections, submission changes, judge assignments and score changes.
-- [ ] Build participant CSV export.
-- [ ] Build team CSV export.
-- [ ] Build attendance CSV export.
-- [ ] Build submission CSV export.
-- [ ] Build judging/results CSV export.
-- [ ] Restrict exports to Organizer role.
+- [x] Complete application audit: startup, clean migrations, seed idempotency, authentication edge cases, authorization, database integrity, reports, and full regression suite.
+- [ ] Complete browser verification of camera permissions, multi-session isolation, and every end-to-end workflow.
+- [x] Build participant CSV export.
+- [x] Build team CSV export.
+- [x] Build attendance CSV export.
+- [x] Build submission CSV export.
+- [x] Build judging/results CSV export.
+- [x] Restrict exports to Organizer role.
 
 ## 9. P1 — n8n automation
 

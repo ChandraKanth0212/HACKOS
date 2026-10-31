@@ -12,8 +12,9 @@ class User(UserMixin, db.Model):
     )
 
     id = db.Column(db.String(36), primary_key=True, default=generate_uuid)
-    event_id = db.Column(db.String(36), db.ForeignKey("events.id"), nullable=False)
+    event_id = db.Column(db.String(36), db.ForeignKey("events.id"), nullable=True)
     email = db.Column(db.Text, nullable=False)
+    display_name = db.Column(db.Text, nullable=True)
     password_hash = db.Column(db.Text, nullable=False)
     role = db.Column(db.Text, nullable=False)
     is_active = db.Column(db.Boolean, nullable=False, default=True)
@@ -22,7 +23,12 @@ class User(UserMixin, db.Model):
         db.DateTime(timezone=True), nullable=False, default=utc_now, onupdate=utc_now
     )
 
-    event = db.relationship("Event", back_populates="users")
+    event = db.relationship(
+        "Event", foreign_keys=[event_id], back_populates="users"
+    )
     participant = db.relationship("Participant", back_populates="user", uselist=False)
     judge = db.relationship("Judge", back_populates="user", uselist=False)
     audit_logs = db.relationship("AuditLog", back_populates="actor")
+    owned_events = db.relationship(
+        "Event", foreign_keys="Event.owner_user_id", back_populates="owner"
+    )

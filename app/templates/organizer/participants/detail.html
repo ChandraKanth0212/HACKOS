@@ -1,0 +1,13 @@
+{% extends "dashboard/shell.html" %}
+{% block title %}{{ participant.full_name }} | HACKOS{% endblock %}
+{% block page_title %}{{ participant.full_name }}{% endblock %}
+{% block page_subtitle %}Participant registration details.{% endblock %}
+{% block dashboard_content %}
+<div class="d-flex justify-content-between align-items-center mb-4"><span class="role-badge">{{ participant.registration_status|replace("_", " ")|capitalize }}</span><a class="btn btn-primary" href="{{ url_for('organizer.participant_edit', participant_id=participant.id) }}">Edit participant</a></div>
+<div class="card"><div class="card-body"><dl class="row mb-0">
+<dt class="col-sm-4">Email</dt><dd class="col-sm-8">{{ participant.email_normalized }}</dd>
+<dt class="col-sm-4">Participant code</dt><dd class="col-sm-8">{{ participant.participant_code }}</dd>
+<dt class="col-sm-4">Phone</dt><dd class="col-sm-8">{{ participant.phone or "Not provided" }}</dd>
+<dt class="col-sm-4">Institution</dt><dd class="col-sm-8">{{ participant.institution or "Not provided" }}</dd>
+</dl></div></div>
+{% endblock %}

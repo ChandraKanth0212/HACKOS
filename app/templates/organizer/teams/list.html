@@ -1,0 +1,10 @@
+{% extends "dashboard/shell.html" %}
+{% block title %}Teams | HACKOS{% endblock %}
+{% block page_title %}Teams{% endblock %}
+{% block page_subtitle %}Manage teams and membership for {{ event.name }}.{% endblock %}
+{% block dashboard_content %}
+<div class="d-flex justify-content-end mb-4"><a class="btn btn-primary" href="{{ url_for('organizer.team_create') }}">Create team</a></div>
+{% if teams %}<div class="table-responsive"><table class="table align-middle"><thead><tr><th>Team</th><th>Code</th><th>Members</th><th>Status</th><th></th></tr></thead><tbody>
+{% for team in teams %}<tr><td>{{ team.name }}</td><td>{{ team.team_code }}</td><td>{{ team.members|selectattr("left_at", "none")|list|length }}</td><td>{{ team.status|capitalize }}</td><td><a href="{{ url_for('organizer.team_detail', team_id=team.id) }}">View</a></td></tr>{% endfor %}
+</tbody></table></div>{% else %}<div class="empty-state">No teams have been created.</div>{% endif %}
+{% endblock %}

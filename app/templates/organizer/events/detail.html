@@ -1,0 +1,19 @@
+{% extends "dashboard/shell.html" %}
+{% block title %}{{ event.name }} | HACKOS{% endblock %}
+{% block page_title %}{{ event.name }}{% endblock %}
+{% block page_subtitle %}Event configuration and operational details.{% endblock %}
+{% block dashboard_content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <span class="role-badge">{{ event.status|capitalize }}</span>
+  <a class="btn btn-primary" href="{{ url_for('organizer.event_edit', event_id=event.id) }}">Edit event</a>
+</div>
+<div class="card"><div class="card-body">
+  <dl class="row mb-0">
+    <dt class="col-sm-4">Description</dt><dd class="col-sm-8">{{ event.description or "Not configured" }}</dd>
+    <dt class="col-sm-4">Venue</dt><dd class="col-sm-8">{{ event.venue or "Not configured" }}</dd>
+    <dt class="col-sm-4">Timezone</dt><dd class="col-sm-8">{{ event.timezone }}</dd>
+    <dt class="col-sm-4">Capacity</dt><dd class="col-sm-8">{{ event.capacity or "Not configured" }}</dd>
+    <dt class="col-sm-4">Team size</dt><dd class="col-sm-8">{{ event.team_size_min or "—" }} to {{ event.team_size_max or "—" }}</dd>
+  </dl>
+</div></div>
+{% endblock %}

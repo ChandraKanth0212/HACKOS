@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}HACKOS Demo · See the event come together{% endblock %}
+{% block body %}
+<div class="demo-page" data-demo-page>
+  <nav class="demo-nav" aria-label="Demo navigation">
+    <div class="demo-container demo-nav-inner">
+      <a class="brand landing-brand" href="{{ url_for('main.home') }}"><span class="brand-mark">H</span><span>HACKOS</span></a>
+      <div class="demo-nav-actions"><span class="demo-synthetic-label"><i></i> Synthetic walkthrough</span><a href="{{ url_for('auth.login') }}">Sign in <span aria-hidden="true">↗</span></a><a class="demo-host-link" href="{{ url_for('auth.organizer_register') }}">Host a Hackathon</a></div>
+    </div>
+  </nav>
+  <main id="main">
+    <section class="demo-hero">
+      <div class="demo-container">
+        <a class="demo-back-link" href="{{ url_for('main.home') }}">← Back to HACKOS</a>
+        <div class="demo-hero-heading">
+          <div><p class="landing-kicker"><span class="landing-pulse"></span> HACKOS Innovation Challenge</p><h1>Watch the event<br><em>come together.</em></h1><p>Move through a synthetic hackathon lifecycle and see how one operational record carries the event from registration to results.</p></div>
+          <div class="demo-stage-rail"><span data-demo-stage-label>Registration</span><strong><b data-demo-stage-index>01</b> / 06</strong></div>
+        </div>
+      </div>
+    </section>
+    <section class="demo-console-section">
+      <div class="demo-container">
+        <div class="demo-console" aria-label="Interactive synthetic HACKOS operations dashboard">
+          <header class="demo-console-header"><div><span class="demo-overline">HACKOS INNOVATION CHALLENGE · 31 OCT 2026</span><h2>Event operations</h2></div><span class="demo-status"><i></i><span data-demo-status>Ready to begin</span></span></header>
+          <div class="demo-progress"><span data-demo-progress></span></div>
+          <div class="demo-metrics">
+            <div class="demo-metric"><span>Registrations</span><strong data-demo-metric="registrations">248</strong><small>confirmed participants</small></div>
+            <div class="demo-metric"><span>Teams</span><strong data-demo-metric="teams">62</strong><small data-demo-detail="teams">synthetic teams</small></div>
+            <div class="demo-metric"><span>Checked in</span><strong data-demo-metric="checkedIn">0</strong><small data-demo-detail="checkedIn">event day ahead</small></div>
+            <div class="demo-metric"><span>Submissions</span><strong data-demo-metric="submissions">0</strong><small data-demo-detail="submissions">not open yet</small></div>
+            <div class="demo-metric"><span>Evaluations</span><strong data-demo-metric="evaluations">0%</strong><small data-demo-detail="evaluations">judging not started</small></div>
+          </div>
+          <div class="demo-main-grid">
+            <div class="demo-stage-panel">
+              <div class="demo-panel-title"><span>Lifecycle</span><small data-demo-stage-description>Participant records are validated and ready for team formation.</small></div>
+              <div class="demo-lifecycle" data-demo-lifecycle>
+                <button class="demo-lifecycle-step is-active" data-demo-step="0"><b>01</b><span>Registration</span><i></i></button>
+                <button class="demo-lifecycle-step" data-demo-step="1"><b>02</b><span>Teams</span><i></i></button>
+                <button class="demo-lifecycle-step" data-demo-step="2"><b>03</b><span>Check-in</span><i></i></button>
+                <button class="demo-lifecycle-step" data-demo-step="3"><b>04</b><span>Submissions</span><i></i></button>
+                <button class="demo-lifecycle-step" data-demo-step="4"><b>05</b><span>Judging</span><i></i></button>
+                <button class="demo-lifecycle-step" data-demo-step="5"><b>06</b><span>Results</span><i></i></button>
+              </div>
+              <div class="demo-stage-callout"><span data-demo-callout-icon>01</span><div><strong data-demo-callout-title>Registration is ready</strong><p data-demo-callout>HACKOS keeps participant records clean before the event begins.</p></div></div>
+            </div>
+            <div class="demo-log-panel"><div class="demo-panel-title"><span>Event activity</span><small>synthetic timeline</small></div><ol class="demo-log" data-demo-log><li class="is-current"><time>09:00</time><span>Demo ready — waiting to start</span></li></ol></div>
+          </div>
+          <div class="demo-console-footer"><div class="demo-controls"><button class="demo-control demo-control-primary" type="button" data-demo-action="start">Start Demo <span>→</span></button><button class="demo-control" type="button" data-demo-action="pause" disabled>Pause</button><button class="demo-control" type="button" data-demo-action="resume" disabled>Resume</button><button class="demo-control" type="button" data-demo-action="previous" disabled>← Previous</button><button class="demo-control" type="button" data-demo-action="next">Next Step <span>→</span></button><button class="demo-control demo-control-reset" type="button" data-demo-action="reset">Reset</button></div><span class="demo-control-hint" data-demo-hint>Start the walkthrough or move one step at a time.</span></div>
+        </div>
+      </div>
+    </section>
+    <section class="demo-results-section">
+      <div class="demo-container demo-results-grid">
+        <div><p class="landing-kicker">At the finish line</p><h2>A result everyone<br>can <em>follow.</em></h2><p>The final synthetic leaderboard connects published scores to the work that happened before them.</p></div>
+        <div class="demo-leaderboard" data-demo-leaderboard aria-live="polite"><div class="demo-leaderboard-empty"><span>06</span><strong>Complete the walkthrough</strong><p>The leaderboard appears when evaluations are submitted.</p></div></div>
+      </div>
+    </section>
+  </main>
+  <footer class="demo-footer"><div class="demo-container"><span>HACKOS · Synthetic product walkthrough</span><a href="{{ url_for('main.home') }}">Back to HACKOS</a></div></footer>
+</div>
+{% endblock %}
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/demo.js') }}"></script>
+{% endblock %}

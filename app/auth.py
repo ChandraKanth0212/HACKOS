@@ -4,12 +4,14 @@ from urllib.parse import urlparse
 from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 from flask_wtf import FlaskForm
+from sqlalchemy.exc import IntegrityError
 from wtforms import PasswordField, StringField, SubmitField
-from wtforms.validators import DataRequired, Length
+from wtforms.validators import DataRequired, Length, ValidationError
 
 from app.extensions import db, login_manager
 from app.models import User
 from app.services.passwords import verify_password
+from app.services.passwords import hash_password
 
 auth = Blueprint("auth", __name__)
 
@@ -22,6 +24,31 @@ class LoginForm(FlaskForm):
 
 class LogoutForm(FlaskForm):
     pass
+
+
+class OrganizerRegistrationForm(FlaskForm):
+    name = StringField("Your name", validators=[DataRequired(), Length(min=2, max=160)])
+    email = StringField("Email", validators=[DataRequired(), Length(max=320)])
+    password = PasswordField("Password", validators=[DataRequired(), Length(min=12, max=128)])
+    password_confirmation = PasswordField(
+        "Confirm password", validators=[DataRequired(), Length(min=12, max=128)]
+    )
+    submit = SubmitField("Create organizer account")
+
+    def validate_password(self, field):
+        password = field.data or ""
+        if (
+            not any(character.islower() for character in password)
+            or not any(character.isupper() for character in password)
+            or not any(character.isdigit() for character in password)
+        ):
+            raise ValidationError(
+                "Use at least 12 characters with uppercase, lowercase, and a number."
+            )
+
+    def validate_password_confirmation(self, field):
+        if field.data != self.password.data:
+            raise ValidationError("Passwords must match.")
 
 
 @login_manager.user_loader
@@ -82,6 +109,38 @@ def login():
     elif request.method == "POST":
         flash("Enter a valid email and password.", "danger")
     return render_template("auth/login.html", form=form)
+
+
+@auth.route("/register/organizer", methods=["GET", "POST"])
+def organizer_register():
+    if current_user.is_authenticated:
+        return redirect(url_for(f"{current_user.role}.dashboard"))
+
+    form = OrganizerRegistrationForm()
+    if form.validate_on_submit():
+        email = _normalized_email(form.email.data)
+        if db.session.query(User.id).filter(db.func.lower(User.email) == email).first():
+            form.email.errors.append("An account already exists for that email.")
+        else:
+            user = User(
+                email=email,
+                display_name=form.name.data.strip(),
+                password_hash=hash_password(form.password.data),
+                role="organizer",
+                event_id=None,
+            )
+            try:
+                db.session.add(user)
+                db.session.commit()
+            except IntegrityError:
+                db.session.rollback()
+                form.email.errors.append(
+                    "We could not create that account. Please try again."
+                )
+            else:
+                login_user(user, fresh=True)
+                return redirect(url_for("organizer.event_create"))
+    return render_template("auth/organizer_register.html", form=form)
 
 
 @auth.post("/logout")

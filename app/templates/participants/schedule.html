@@ -1,0 +1,7 @@
+{% extends "dashboard/shell.html" %}
+{% block title %}Schedule | HACKOS{% endblock %}
+{% block page_title %}Event schedule{% endblock %}
+{% block page_subtitle %}Times shown in {{ event_timezone }}.{% endblock %}
+{% block dashboard_content %}
+{% if items %}<div class="row g-3">{% for item in items %}<article class="col-12"><div class="card"><div class="card-body"><p class="eyebrow">{{ to_event_timezone(item.starts_at, event_timezone).strftime("%a, %d %b %Y · %H:%M") }} – {{ to_event_timezone(item.ends_at, event_timezone).strftime("%H:%M") }}</p><h2 class="h5">{{ item.title }}</h2>{% if item.location %}<p class="text-muted mb-1">{{ item.location }}</p>{% endif %}<p class="mb-0">{{ item.description or "" }}</p></div></div></article>{% endfor %}</div>{% else %}<div class="empty-state">The event schedule has not been published yet.</div>{% endif %}
+{% endblock %}

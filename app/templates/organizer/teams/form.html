@@ -1,0 +1,10 @@
+{% extends "dashboard/shell.html" %}
+{% block title %}{{ heading }} | HACKOS{% endblock %}
+{% block page_title %}{{ heading }}{% endblock %}
+{% block page_subtitle %}Team size rules are enforced on membership changes.{% endblock %}
+{% block dashboard_content %}
+<form method="post" class="card" novalidate><div class="card-body">{{ form.hidden_tag() }}
+{% for field in [form.name, form.problem_statement, form.status] %}<div class="mb-3">{{ field.label(class="form-label") }}{{ field(class="form-control" if field.type != "SelectField" else "form-select") }}{% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}</div>{% endfor %}
+{{ form.submit(class="btn btn-primary") }} <a class="btn btn-link" href="{{ url_for('organizer.teams') }}">Cancel</a>
+</div></form>
+{% endblock %}

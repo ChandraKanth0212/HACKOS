@@ -1,0 +1,26 @@
+{% extends "dashboard/shell.html" %}
+{% block title %}Reports | HACKOS{% endblock %}
+{% block page_title %}Reports{% endblock %}
+{% block page_subtitle %}Live event operations metrics and organizer-only exports.{% endblock %}
+{% block dashboard_content %}
+<div class="metric-grid">
+  <article class="metric-card"><span class="metric-label">Registered participants</span><strong>{{ metrics.participants.total }}</strong><span class="metric-meta">Confirmed {{ metrics.participants.confirmed }} · Pending {{ metrics.participants.pending }} · Cancelled {{ metrics.participants.cancelled }}</span></article>
+  <article class="metric-card"><span class="metric-label">Teams</span><strong>{{ metrics.teams.total }}</strong><span class="metric-meta">Average size {% if metrics.teams.average_size is none %}Unavailable{% else %}{{ "%.2f"|format(metrics.teams.average_size) }}{% endif %}</span></article>
+  <article class="metric-card"><span class="metric-label">Attendance</span><strong>{{ metrics.attendance.checked_in }}</strong><span class="metric-meta">Not checked in {{ metrics.attendance.not_checked_in }}</span></article>
+  <article class="metric-card"><span class="metric-label">Submissions</span><strong>{{ metrics.submissions.total }}</strong><span class="metric-meta">Late {{ metrics.submissions.late }}</span></article>
+</div>
+<section class="content-panel">
+  <div class="panel-heading"><div><p class="eyebrow">Judging progress</p><h2>Assignments and evaluations</h2></div></div>
+  <p>Assignments completed: {{ metrics.judging.assignments_completed }} / {{ metrics.judging.assignments_total }}</p>
+  <p>Evaluations submitted: {{ metrics.judging.evaluations_submitted }} / {{ metrics.judging.evaluations_total }}</p>
+  <p>Results: <strong>{{ "Published" if metrics.results_published else "Unpublished" }}</strong></p>
+</section>
+<section class="content-panel">
+  <div class="panel-heading"><div><p class="eyebrow">CSV exports</p><h2>Download event reports</h2></div></div>
+  <ul>
+  {% for report_type in report_types %}
+    <li><a href="{{ url_for('organizer.report_export', report_type=report_type) }}">{{ report_type|replace("_", " ")|capitalize }} CSV</a></li>
+  {% endfor %}
+  </ul>
+</section>
+{% endblock %}

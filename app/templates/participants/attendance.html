@@ -1,0 +1,7 @@
+{% extends "dashboard/shell.html" %}
+{% block title %}My attendance | HACKOS{% endblock %}
+{% block page_title %}My attendance{% endblock %}
+{% block page_subtitle %}Your attendance status for {{ event.name }}.{% endblock %}
+{% block dashboard_content %}
+<div class="card"><div class="card-body">{% if attendance %}<h2 class="h5 text-success">Checked in</h2><p>Recorded at {{ attendance.checked_in_at }} by the event team.</p>{% else %}<h2 class="h5">Not checked in</h2><p>Present your <a href="{{ url_for('participant.check_in_pass') }}">check-in pass</a> to an authorized organizer.</p>{% endif %}</div></div>
+{% endblock %}

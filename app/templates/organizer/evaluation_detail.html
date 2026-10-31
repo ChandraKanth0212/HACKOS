@@ -1,0 +1,17 @@
+{% extends "dashboard/shell.html" %}
+{% block content %}
+<h1>Evaluation details</h1>
+<p>Project: {{ evaluation.submission.project_title }}</p>
+<p>Team: {{ evaluation.submission.team.name }}</p>
+<p>Judge: {{ evaluation.judge.display_name }}</p>
+<p>Status: {{ evaluation.status|title }}</p>
+<p>Total score: {{ evaluation.total_score if evaluation.total_score is not none else "Not submitted" }}</p>
+{% if evaluation.comments %}<p>{{ evaluation.comments }}</p>{% endif %}
+{% if evaluation.scores %}
+<table><thead><tr><th>Criterion</th><th>Score</th><th>Comment</th></tr></thead><tbody>
+{% for score in evaluation.scores %}
+<tr><td>{{ score.criterion.name }}</td><td>{{ score.score }}</td><td>{{ score.comment or "" }}</td></tr>
+{% endfor %}
+</tbody></table>
+{% else %}<p>No scores have been saved.</p>{% endif %}
+{% endblock %}

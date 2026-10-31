@@ -87,6 +87,41 @@ def test_incorrect_password_is_generic_and_does_not_login(client, accounts):
     assert b"We could not sign you in with those details." in response.data
 
 
+def test_unknown_and_inactive_accounts_are_rejected_generically(client, app, accounts):
+    unknown = login(client, "unknown@test.example")
+    assert unknown.status_code == 200
+    assert b"We could not sign you in with those details." in unknown.data
+    with app.app_context():
+        user = User.query.filter_by(email=accounts["organizer"]).one()
+        user.is_active = False
+        db.session.commit()
+    inactive = login(client, accounts["organizer"])
+    assert inactive.status_code == 200
+    assert b"We could not sign you in with those details." in inactive.data
+
+
+def test_login_rejects_external_and_protocol_relative_next_urls(client, accounts):
+    for next_url in ("https://evil.example/", "//evil.example/"):
+        page = client.get(f"/login?next={next_url}")
+        response = client.post(
+            f"/login?next={next_url}",
+            data={
+                "email": accounts["organizer"],
+                "password": "correct-password",
+                "csrf_token": _token(page),
+            },
+            follow_redirects=False,
+        )
+        assert response.status_code == 302
+        assert response.headers["Location"].endswith("/organizer/dashboard")
+        dashboard = client.get("/organizer/dashboard")
+        client.post(
+            "/logout",
+            data={"csrf_token": _token(dashboard)},
+            follow_redirects=False,
+        )
+
+
 def test_logout_clears_authenticated_session(client, accounts):
     login(client, accounts["organizer"])
     dashboard = client.get("/organizer/dashboard")

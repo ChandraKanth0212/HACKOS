@@ -1,0 +1,7 @@
+{% extends "dashboard/shell.html" %}
+{% block title %}Check-in pass | HACKOS{% endblock %}
+{% block page_title %}My check-in pass{% endblock %}
+{% block page_subtitle %}Show this QR code to an authorized event organizer.{% endblock %}
+{% block dashboard_content %}
+<div class="card text-center"><div class="card-body"><h2 class="h5">{{ participant.full_name }}</h2><img src="{{ qr_data_uri }}" alt="Secure check-in QR code" class="img-fluid mb-3" style="max-width:320px"><p class="text-muted">Keep this pass private. It does not grant access to your account.</p><details><summary>Manual fallback code</summary><code class="user-select-all">{{ token }}</code></details></div></div>
+{% endblock %}

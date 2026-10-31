@@ -1,0 +1,23 @@
+{% extends "dashboard/shell.html" %}
+{% block title %}Participants | HACKOS{% endblock %}
+{% block page_title %}Participants{% endblock %}
+{% block page_subtitle %}Manage registrations for {{ event.name }}.{% endblock %}
+{% block dashboard_content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <form method="get" class="d-flex gap-2">
+    <label class="visually-hidden" for="participant-search">Search participants</label>
+    <input id="participant-search" class="form-control" name="q" value="{{ search }}" placeholder="Search name, email or code">
+    <select class="form-select" name="status" aria-label="Registration status">
+      <option value="">All statuses</option>
+      {% for item in ["pending", "confirmed", "cancelled", "flagged_duplicate"] %}<option value="{{ item }}" {% if status == item %}selected{% endif %}>{{ item|replace("_", " ")|capitalize }}</option>{% endfor %}
+    </select>
+    <button class="btn btn-secondary" type="submit">Filter</button>
+  </form>
+  <a class="btn btn-primary" href="{{ url_for('organizer.participant_create') }}">Add participant</a>
+</div>
+{% if participants %}
+<div class="table-responsive"><table class="table align-middle"><thead><tr><th>Name</th><th>Email</th><th>Code</th><th>Status</th><th></th></tr></thead><tbody>
+{% for participant in participants %}<tr><td>{{ participant.full_name }}</td><td>{{ participant.email_normalized }}</td><td>{{ participant.participant_code }}</td><td>{{ participant.registration_status|replace("_", " ")|capitalize }}</td><td><a href="{{ url_for('organizer.participant_detail', participant_id=participant.id) }}">View</a></td></tr>{% endfor %}
+</tbody></table></div>
+{% else %}<div class="empty-state">No participants match this filter.</div>{% endif %}
+{% endblock %}

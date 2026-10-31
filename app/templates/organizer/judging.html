@@ -1,0 +1,32 @@
+{% extends "dashboard/shell.html" %}
+{% block content %}
+<h1>Judge assignments</h1>
+<form method="post" action="{{ url_for('organizer.judging_assign') }}">
+  {{ assignment_form.hidden_tag() }}
+  {{ assignment_form.judge_id.label }} {{ assignment_form.judge_id() }}
+  {{ assignment_form.submission_id.label }} {{ assignment_form.submission_id() }}
+  {{ assignment_form.submit() }}
+</form>
+{% if assignments %}
+<table>
+  <thead><tr><th>Judge</th><th>Submission</th><th>Status</th><th>Assigned</th><th></th></tr></thead>
+  <tbody>
+  {% for assignment in assignments %}
+  <tr>
+    <td>{{ assignment.judge.display_name }}</td>
+    <td>{{ assignment.submission.team.name }} — {{ assignment.submission.project_title }}</td>
+    <td>{{ assignment.status|title }}</td>
+    <td>{{ assignment.assigned_at }}</td>
+    <td>
+      {% if assignment.status != "revoked" %}
+      <form method="post" action="{{ url_for('organizer.judging_revoke', assignment_id=assignment.id) }}">
+        {{ logout_form.hidden_tag() }}<button type="submit">Revoke</button>
+      </form>
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}<p>No judge assignments yet.</p>{% endif %}
+{% endblock %}

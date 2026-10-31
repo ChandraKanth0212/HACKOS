@@ -1,8 +1,193 @@
 {% extends "base.html" %}
-{% block title %}HACKOS · Hackathon operations{% endblock %}
+{% block title %}HACKOS · Run your hackathon. Not the chaos.{% endblock %}
 {% block body %}
-<main class="public-page">
-  <nav class="public-nav container-fluid"><a class="brand" href="{{ url_for('main.home') }}"><span class="brand-mark">H</span> HACKOS</a><a class="btn btn-outline-light" href="{{ url_for('auth.login') }}">Sign in</a></nav>
-  <section class="hero container"><span class="eyebrow">Reliable operations. Better hackathons.</span><h1>One calm command center for every event moment.</h1><p>HACKOS keeps teams, attendance, submissions and judging aligned from kickoff to final results.</p><a class="btn btn-primary btn-lg" href="{{ url_for('auth.login') }}">Enter workspace <span aria-hidden="true">→</span></a></section>
-</main>
+<div class="landing-page">
+  <div class="landing-curtain" aria-hidden="true">
+    <div class="landing-curtain-panel landing-curtain-left">
+      <div class="landing-curtain-folds"></div>
+    </div>
+    <div class="landing-curtain-panel landing-curtain-right">
+      <div class="landing-curtain-folds"></div>
+    </div>
+    <div class="landing-curtain-mark"><span class="brand-mark">H</span><strong>HACKOS</strong><small>EVENT OPERATIONS</small></div>
+  </div>
+  <nav class="landing-nav" aria-label="Primary navigation">
+    <div class="landing-container landing-nav-inner">
+      <a class="brand landing-brand" href="{{ url_for('main.home') }}" aria-label="HACKOS home">
+        <span class="brand-mark">H</span>
+        <span>HACKOS</span>
+      </a>
+      <button class="landing-menu-toggle" type="button" aria-expanded="false" aria-controls="landing-menu">
+        <span class="visually-hidden">Toggle navigation</span>
+        <span></span><span></span>
+      </button>
+      <div class="landing-menu" id="landing-menu">
+        <a href="#features">Features</a>
+        <a href="#workflow">How it works</a>
+        <a href="#trust">Trust &amp; control</a>
+        <a class="landing-host-link" href="{{ url_for('auth.organizer_register') }}">Host a Hackathon</a>
+        <a class="landing-signin" href="{{ url_for('auth.login') }}">Sign in <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <section class="landing-hero">
+      <div class="landing-grid-glow" aria-hidden="true"></div>
+      <div class="landing-container landing-hero-grid">
+        <div class="landing-hero-copy landing-reveal">
+          <p class="landing-kicker"><span class="landing-pulse"></span> The operating system for hackathon delivery</p>
+          <h1>Run your hackathon.<br><em>Not the chaos.</em></h1>
+          <p class="landing-lede">One calm command center for registrations, teams, check-in, submissions, judging and results.</p>
+          <div class="landing-actions">
+            <a class="landing-button landing-button-primary" href="{{ url_for('auth.organizer_register') }}">Host a Hackathon <span aria-hidden="true">→</span></a>
+            <a class="landing-text-link" href="{{ url_for('main.demo') }}">See how it works <span aria-hidden="true">↗</span></a>
+          </div>
+          <p class="landing-note">Built for organizers. Clear for participants. Fair for judges.</p>
+        </div>
+        <div class="landing-hero-visual landing-reveal landing-reveal-delay-1" aria-label="Synthetic HACKOS operations preview">
+          <div class="landing-window">
+            <div class="landing-window-bar">
+              <span class="landing-window-dots"><i></i><i></i><i></i></span>
+              <span class="landing-window-title">HACKOS / event overview</span>
+              <span class="landing-live-label"><b></b> SYNTHETIC DEMO</span>
+            </div>
+            <div class="landing-window-body">
+              <div class="landing-preview-heading">
+                <div><span class="landing-overline">TODAY · HACKNOVA 2026</span><strong>Event operations</strong></div>
+                <span class="landing-status-chip">On track</span>
+              </div>
+              <div class="landing-preview-metrics">
+                <div><span>Participants</span><strong>248</strong><small>registered</small></div>
+                <div><span>Checked in</span><strong>196</strong><small>79% present</small></div>
+                <div><span>Submissions</span><strong>42</strong><small>of 48 teams</small></div>
+              </div>
+              <div class="landing-preview-row">
+                <div class="landing-preview-section-title">Event flow <span>Live status</span></div>
+                <div class="landing-mini-flow">
+                  <span class="is-done">Registration</span><i></i><span class="is-done">Teams</span><i></i><span class="is-active">Judging</span><i></i><span>Results</span>
+                </div>
+              </div>
+              <div class="landing-preview-table">
+                <div><span><b class="landing-avatar avatar-blue">B</b> Byte Me</span><span class="landing-score">92.4 <small>final</small></span></div>
+                <div><span><b class="landing-avatar avatar-purple">N</b> Null Pointers</span><span class="landing-score">89.1 <small>final</small></span></div>
+                <div><span><b class="landing-avatar avatar-teal">K</b> Kernel Panic</span><span class="landing-score pending">Awaiting evaluation</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="landing-float-card landing-float-checkin"><span class="landing-check-icon">✓</span><span><b>Check-in recorded</b><small>Team Byte Me · just now</small></span></div>
+        </div>
+      </div>
+      <div class="landing-scroll-cue" aria-hidden="true"><span></span> Scroll to explore</div>
+    </section>
+
+    <section class="landing-section landing-problem" id="features">
+      <div class="landing-container">
+        <div class="landing-section-intro landing-reveal">
+          <p class="landing-kicker">01 / The problem</p>
+          <h2>Great events get buried<br><em>under busywork.</em></h2>
+          <p>Registrations live in one place. Team rosters in another. Scores in a spreadsheet someone forgot to share.</p>
+        </div>
+        <div class="landing-problem-grid">
+          <article class="landing-problem-card landing-reveal"><span>01</span><h3>Scattered registrations</h3><p>Duplicate entries and unclear status make the starting line harder than it should be.</p></article>
+          <article class="landing-problem-card landing-reveal landing-reveal-delay-1"><span>02</span><h3>Teams in separate tools</h3><p>Roster changes, membership history and project ownership become guesswork.</p></article>
+          <article class="landing-problem-card landing-reveal landing-reveal-delay-2"><span>03</span><h3>Manual event-day work</h3><p>Check-in queues, missing submissions and judge follow-ups drain the room.</p></article>
+          <article class="landing-problem-card landing-reveal landing-reveal-delay-3"><span>04</span><h3>Results without a trail</h3><p>When scores are disconnected, trust is the first thing that gets lost.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="landing-section landing-solution">
+      <div class="landing-container landing-solution-grid">
+        <div class="landing-section-intro landing-reveal">
+          <p class="landing-kicker">02 / The solution</p>
+          <h2>One source of truth<br>for <em>every moment.</em></h2>
+        </div>
+        <div class="landing-solution-copy landing-reveal landing-reveal-delay-1">
+          <p>HACKOS connects the operational details that keep a hackathon moving. The right people see the right state, at the right time.</p>
+          <div class="landing-feature-list">
+            <div><span>↳</span><p><strong>Operational clarity</strong><br>Live records, useful status and fewer tabs.</p></div>
+            <div><span>↳</span><p><strong>Controlled access</strong><br>Role-based views keep every workflow focused.</p></div>
+            <div><span>↳</span><p><strong>Traceable decisions</strong><br>Server-side validation and audit history built in.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="landing-section landing-workflow" id="workflow">
+      <div class="landing-container">
+        <div class="landing-section-intro landing-reveal">
+          <p class="landing-kicker">03 / How it works</p>
+          <h2>From first registration<br>to <em>final results.</em></h2>
+          <p>Every step has a clear owner, a reliable record and a visible next move.</p>
+        </div>
+        <div class="landing-timeline" data-timeline>
+          <div class="landing-timeline-line"><span></span></div>
+          <article class="landing-step landing-reveal"><span class="landing-step-number">01</span><div><h3>Registration</h3><p>Collect participant records with validation and duplicate protection.</p></div></article>
+          <article class="landing-step landing-reveal landing-reveal-delay-1"><span class="landing-step-number">02</span><div><h3>Teams</h3><p>Build rosters, retain membership history and keep ownership clear.</p></div></article>
+          <article class="landing-step landing-reveal landing-reveal-delay-2"><span class="landing-step-number">03</span><div><h3>Check-in</h3><p>Scan a QR pass or use the manual code fallback at the door.</p></div></article>
+          <article class="landing-step landing-reveal landing-reveal-delay-3"><span class="landing-step-number">04</span><div><h3>Submissions</h3><p>Accept project links with server-recorded timestamps and deadlines.</p></div></article>
+          <article class="landing-step landing-reveal landing-reveal-delay-1"><span class="landing-step-number">05</span><div><h3>Judging</h3><p>Assign judges, apply weighted criteria and protect private evaluations.</p></div></article>
+          <article class="landing-step landing-reveal landing-reveal-delay-2"><span class="landing-step-number">06</span><div><h3>Results</h3><p>Aggregate submitted evaluations and publish when the organizer is ready.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="landing-section landing-operations" aria-labelledby="operations-title">
+      <div class="landing-container">
+        <div class="landing-section-intro landing-reveal">
+          <p class="landing-kicker">04 / Live operations preview</p>
+          <h2 id="operations-title">A calmer view<br>of <em>the whole event.</em></h2>
+          <p>This is a clearly labelled synthetic preview. Your real event records stay in the HACKOS workspace.</p>
+        </div>
+        <div class="landing-ops-grid">
+          <div class="landing-ops-card landing-reveal"><span class="landing-ops-icon">01</span><h3>Registration overview</h3><strong>248</strong><small>confirmed participants</small><div class="landing-progress"><span style="width: 78%"></span></div></div>
+          <div class="landing-ops-card landing-reveal landing-reveal-delay-1"><span class="landing-ops-icon">02</span><h3>Team status</h3><strong>48</strong><small>active teams · 42 submitted</small><div class="landing-progress progress-purple"><span style="width: 87%"></span></div></div>
+          <div class="landing-ops-card landing-reveal landing-reveal-delay-2"><span class="landing-ops-icon">03</span><h3>Judge progress</h3><strong>84%</strong><small>submitted evaluations</small><div class="landing-progress progress-teal"><span style="width: 84%"></span></div></div>
+          <div class="landing-ops-card landing-reveal landing-reveal-delay-3"><span class="landing-ops-icon">04</span><h3>Published results</h3><strong>Ready</strong><small>organizer-controlled visibility</small><div class="landing-result-pill"><i></i> Awaiting publication</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="landing-section landing-trust" id="trust">
+      <div class="landing-container landing-trust-grid">
+        <div class="landing-section-intro landing-reveal">
+          <p class="landing-kicker">05 / Trust &amp; control</p>
+          <h2>Built to keep<br>the <em>signal clear.</em></h2>
+        </div>
+        <div class="landing-trust-list landing-reveal landing-reveal-delay-1">
+          <div><span>01</span><div><h3>Role-based access</h3><p>Organizers, participants and judges see only what their work requires.</p></div></div>
+          <div><span>02</span><div><h3>Server-side validation</h3><p>Important rules are enforced where they matter, not just in the browser.</p></div></div>
+          <div><span>03</span><div><h3>Audit logging</h3><p>Key changes and judging actions remain traceable with timestamps.</p></div></div>
+          <div><span>04</span><div><h3>Private until published</h3><p>Judge evaluations stay protected and results appear when organizers decide.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="landing-final-cta">
+      <div class="landing-container landing-final-inner landing-reveal">
+        <p class="landing-kicker">Ready when your event is</p>
+        <h2>Your next hackathon deserves<br><em>a better operating system.</em></h2>
+        <p class="landing-final-copy">Bring registration, teams, check-in, submissions and judging together with HACKOS.</p>
+        <div class="landing-final-actions">
+          <a class="landing-button landing-button-primary" href="{{ url_for('auth.organizer_register') }}">Organize a Hackathon <span aria-hidden="true">↗</span></a>
+          <a class="landing-text-link" href="{{ url_for('auth.login') }}">Sign in <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="landing-footer">
+    <div class="landing-container">
+      <div class="landing-footer-main"><a class="brand landing-brand" href="{{ url_for('main.home') }}"><span class="brand-mark">H</span><span>HACKOS</span></a><p>A reliable operating system for hackathon delivery.</p><a href="{{ url_for('auth.login') }}">Sign in <span aria-hidden="true">↗</span></a></div>
+      <div class="landing-footer-bottom"><span>© 2026 HACKOS</span><span>Built for better event operations.</span></div>
+    </div>
+  </footer>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  window.HACKOS_LANDING = true;
+</script>
 {% endblock %}

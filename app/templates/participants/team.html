@@ -1,0 +1,7 @@
+{% extends "dashboard/shell.html" %}
+{% block title %}My team | HACKOS{% endblock %}
+{% block page_title %}My team{% endblock %}
+{% block page_subtitle %}Your current team and membership status.{% endblock %}
+{% block dashboard_content %}
+{% if team %}<div class="card"><div class="card-body"><p class="eyebrow">{{ team.team_code }}</p><h2>{{ team.name }}</h2><p>{{ team.problem_statement or "No problem statement configured." }}</p><h3 class="h5 mt-4">Members</h3><ul>{% for member in team.members if not member.left_at %}<li>{{ member.participant.full_name }}{% if member.member_role %} — {{ member.member_role }}{% endif %}</li>{% endfor %}</ul><p class="text-muted">Joined {{ membership.joined_at }} · Active membership</p></div></div>{% else %}<div class="empty-state">You are not currently assigned to a team.</div>{% endif %}
+{% endblock %}

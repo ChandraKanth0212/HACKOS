@@ -1,0 +1,33 @@
+{% extends "dashboard/shell.html" %}
+{% block content %}
+<h1>Project submissions</h1>
+<form method="get">
+  <label>Search {{ search }}</label>
+  <input name="q" value="{{ search }}">
+  <label>Status
+    <select name="status">
+      <option value="">All</option>
+      {% for value in ["submitted", "late", "locked", "withdrawn"] %}
+      <option value="{{ value }}" {% if status == value %}selected{% endif %}>{{ value|title }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <button type="submit">Filter</button>
+</form>
+{% if submissions %}
+<table>
+  <thead><tr><th>Team</th><th>Project</th><th>Status</th><th>Submitted</th><th></th></tr></thead>
+  <tbody>
+  {% for submission in submissions %}
+  <tr>
+    <td>{{ submission.team.name }}</td>
+    <td>{{ submission.project_title }}</td>
+    <td>{{ submission.status|title }}</td>
+    <td>{{ to_event_timezone(submission.submitted_at, event_timezone).strftime("%Y-%m-%d %H:%M") }}</td>
+    <td><a href="{{ url_for('organizer.submission_detail', submission_id=submission.id) }}">View</a></td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}<p>No submissions found.</p>{% endif %}
+{% endblock %}

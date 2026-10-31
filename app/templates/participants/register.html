@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Register for {{ event.name }} | HACKOS{% endblock %}
+{% block body %}
+<main class="auth-page">
+  <section class="auth-card">
+    <a class="brand" href="{{ url_for('main.home') }}"><span class="brand-mark">H</span> HACKOS</a>
+    <h1>Register for {{ event.name }}</h1>
+    {% if not registration_open %}<div class="alert alert-warning">Registration is not currently open for this event.</div>{% endif %}
+    <p class="text-muted">Submit your details to join this event.</p>
+    <form method="post" novalidate>
+      {{ form.hidden_tag() }}
+      {% for field in [form.full_name, form.email, form.phone, form.institution, form.password] %}
+      <div class="mb-3">
+        {{ field.label(class="form-label") }}{{ field(class="form-control") }}
+        {% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+      </div>
+      {% endfor %}
+      {{ form.submit(class="btn btn-primary w-100") }}
+    </form>
+  </section>
+</main>
+{% endblock %}

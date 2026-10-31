@@ -1,0 +1,15 @@
+{% extends "dashboard/shell.html" %}
+{% block title %}{{ team.name }} | HACKOS{% endblock %}
+{% block page_title %}{{ team.name }}{% endblock %}
+{% block page_subtitle %}{{ team.team_code }} · {{ team.status|capitalize }}{% endblock %}
+{% block dashboard_content %}
+<div class="d-flex justify-content-end mb-4"><a class="btn btn-primary" href="{{ url_for('organizer.team_edit', team_id=team.id) }}">Edit team</a></div>
+<div class="card mb-4"><div class="card-body"><p>{{ team.problem_statement or "No problem statement configured." }}</p><p class="text-muted">Configured size: {{ event.team_size_min or "—" }} to {{ event.team_size_max or "—" }} members.</p></div></div>
+<div class="card"><div class="card-body"><h2 class="h5">Membership history</h2>
+{% if members %}<div class="table-responsive"><table class="table"><thead><tr><th>Participant</th><th>Joined</th><th>Left</th><th>Actions</th></tr></thead><tbody>
+{% for member in members %}<tr><td>{{ member.participant.full_name }}<br><small>{{ member.participant.participant_code }}</small></td><td>{{ member.joined_at }}</td><td>{{ member.left_at or "Active" }}</td><td>{% if not member.left_at %}<form method="post" action="{{ url_for('organizer.team_member_remove', team_id=team.id, participant_id=member.participant_id) }}" class="d-inline">{{ participant_form.hidden_tag() }}<input type="hidden" name="participant_id" value="{{ member.participant_id }}"><button class="btn btn-sm btn-outline-danger" type="submit">Remove</button></form>{% endif %}</td></tr>{% endfor %}
+</tbody></table></div>{% else %}<div class="empty-state">No membership history.</div>{% endif %}
+<form method="post" action="{{ url_for('organizer.team_member_add', team_id=team.id) }}" class="row g-2 mt-3">{{ participant_form.hidden_tag() }}<div class="col-md-5">{{ participant_form.participant_id(class="form-control", placeholder="Participant ID") }}</div><div class="col-md-4">{{ participant_form.member_role(class="form-control", placeholder="Role (optional)") }}</div><div class="col-md-3">{{ participant_form.submit(class="btn btn-primary w-100") }}</div></form>
+{% for member in members if not member.left_at %}<form method="post" action="{{ url_for('organizer.team_member_transfer', team_id=team.id, participant_id=member.participant_id) }}" class="row g-2 mt-2"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><div class="col-md-5"><label class="form-label" for="transfer-{{ member.participant_id }}">Transfer {{ member.participant.full_name }}</label><input id="transfer-{{ member.participant_id }}" class="form-control" name="team_id" required placeholder="Destination team ID"></div><div class="col-md-4"><label class="form-label" for="role-{{ member.participant_id }}">New role</label><input id="role-{{ member.participant_id }}" class="form-control" name="member_role" maxlength="80"></div><div class="col-md-3 d-flex align-items-end"><button class="btn btn-outline-primary w-100" type="submit">Transfer</button></div></form>{% endfor %}
+</div></div>
+{% endblock %}

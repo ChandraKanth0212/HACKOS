@@ -1,0 +1,12 @@
+{% extends "dashboard/shell.html" %}
+{% block content %}
+<h1>{{ heading }}</h1>
+<form method="post">
+  {{ form.hidden_tag() }}
+  <div>{{ form.project_title.label }} {{ form.project_title() }}{% for error in form.project_title.errors %}<span class="error">{{ error }}</span>{% endfor %}</div>
+  <div>{{ form.description.label }} {{ form.description(rows=8) }}{% for error in form.description.errors %}<span class="error">{{ error }}</span>{% endfor %}</div>
+  <div>{{ form.repository_url.label }} {{ form.repository_url() }}{% for error in form.repository_url.errors %}<span class="error">{{ error }}</span>{% endfor %}</div>
+  <div>{{ form.demo_url.label }} {{ form.demo_url() }}{% for error in form.demo_url.errors %}<span class="error">{{ error }}</span>{% endfor %}</div>
+  {{ form.submit() }}
+</form>
+{% endblock %}

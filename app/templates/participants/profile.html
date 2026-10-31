@@ -1,0 +1,15 @@
+{% extends "dashboard/shell.html" %}
+{% block title %}My profile | HACKOS{% endblock %}
+{% block page_title %}My participant profile{% endblock %}
+{% block page_subtitle %}Your registration details for this event.{% endblock %}
+{% block dashboard_content %}
+<div class="card"><div class="card-body">
+  <dl class="row mb-0">
+    <dt class="col-sm-4">Name</dt><dd class="col-sm-8">{{ participant.full_name }}</dd>
+    <dt class="col-sm-4">Email</dt><dd class="col-sm-8">{{ participant.email_normalized }}</dd>
+    <dt class="col-sm-4">Participant code</dt><dd class="col-sm-8">{{ participant.participant_code }}</dd>
+    <dt class="col-sm-4">Status</dt><dd class="col-sm-8">{{ participant.registration_status|replace("_", " ")|capitalize }}</dd>
+    <dt class="col-sm-4">Institution</dt><dd class="col-sm-8">{{ participant.institution or "Not provided" }}</dd>
+  </dl>
+</div></div>
+{% endblock %}

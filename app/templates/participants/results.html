@@ -1,0 +1,26 @@
+{% extends "dashboard/shell.html" %}
+{% block title %}Results | HACKOS{% endblock %}
+{% block page_title %}Event results{% endblock %}
+{% block page_subtitle %}Published final scores for {{ event.name }}.{% endblock %}
+{% block dashboard_content %}
+{% if not published %}
+<p>Results have not been published by the organizer yet.</p>
+{% elif not rows %}
+<p>Results are not available yet.</p>
+{% else %}
+<p>Published results show final scores only. Judge comments and identities are private.</p>
+<table>
+  <thead><tr><th>Rank</th><th>Team</th><th>Project</th><th>Score</th></tr></thead>
+  <tbody>
+  {% for row in rows %}
+  <tr{% if own_team and row.team.id == own_team.id %} aria-current="true"{% endif %}>
+    <td>{{ row.rank if row.rank is not none else "Pending" }}</td>
+    <td>{{ row.team.name }}</td>
+    <td>{{ row.submission.project_title }}</td>
+    <td>{{ row.average_score if row.average_score is not none else "Pending" }}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+{% endblock %}
