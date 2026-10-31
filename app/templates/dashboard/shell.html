@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+    <div class="sidebar-top"><a class="brand" href="{{ url_for('main.home') }}"><span class="brand-mark">H</span> HACKOS</a><button class="icon-button mobile-only" data-sidebar-toggle aria-label="Close navigation">×</button></div>
+    <div class="event-context"><span class="eyebrow">Active event</span><strong>{{ event.name }}</strong><span class="event-timezone">{{ event.timezone }}</span></div>
+    <nav class="nav-stack"><a class="nav-link active" href="{{ url_for(current_user.role + '.dashboard') }}"><span>◈</span> Overview</a><span class="nav-section">Coming next</span>
+      {% if current_user.role == "organizer" %}<span class="nav-link disabled"><span>◌</span> Participants</span><span class="nav-link disabled"><span>◇</span> Teams</span><span class="nav-link disabled"><span>✦</span> Operations</span>{% elif current_user.role == "participant" %}<span class="nav-link disabled"><span>◇</span> My team</span><span class="nav-link disabled"><span>◌</span> Schedule</span><span class="nav-link disabled"><span>✦</span> Submission</span>{% else %}<span class="nav-link disabled"><span>◇</span> Assigned projects</span><span class="nav-link disabled"><span>◌</span> Evaluation history</span>{% endif %}
+    </nav>
+    <div class="sidebar-footer"><div class="user-chip"><span class="avatar">{{ current_user.email[0]|upper }}</span><div><strong>{{ current_user.email }}</strong><span>{{ current_user.role|capitalize }}</span></div></div></div>
+  </aside>
+  <div class="sidebar-backdrop" data-sidebar-toggle></div>
+  <div class="app-main">
+    <header class="topbar"><button class="icon-button mobile-only" data-sidebar-toggle aria-label="Open navigation">☰</button><div class="topbar-spacer"></div><span class="role-badge">{{ current_user.role|capitalize }}</span><div class="profile-menu"><span class="avatar avatar-small">{{ current_user.email[0]|upper }}</span><form method="post" action="{{ url_for('auth.logout') }}">{{ logout_form.hidden_tag() }}<button class="link-button" type="submit">Sign out</button></form></div></header>
+    <main id="main" class="page-content"><div class="page-header"><div><p class="eyebrow">Workspace / {{ current_user.role|capitalize }}</p><h1>{% block page_title %}{% endblock %}</h1><p class="page-subtitle">{% block page_subtitle %}{% endblock %}</p></div></div>{% with messages = get_flashed_messages(with_categories=true) %}{% for category, message in messages %}<div class="alert alert-{{ category }}" role="alert">{{ message }}</div>{% endfor %}{% endwith %}{% block dashboard_content %}{% endblock %}</main>
+  </div>
+</div>
+{% endblock %}

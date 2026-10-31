@@ -1,0 +1,9 @@
+{% extends "dashboard/shell.html" %}
+{% block title %}Judge dashboard · HACKOS{% endblock %}
+{% block page_title %}Judge workspace{% endblock %}
+{% block page_subtitle %}Focus on the projects assigned to you.{% endblock %}
+{% block dashboard_content %}
+<div class="sample-banner"><span class="status-dot"></span> Sample data · Synthetic demo event</div>
+<div class="metric-grid metric-grid-2"><article class="metric-card animate-in" style="--delay: 0;"><span class="metric-icon">01</span><span class="metric-label">Assigned submissions</span><strong>{{ assigned_count }}</strong><span class="metric-meta">Current queue</span></article><article class="metric-card animate-in" style="--delay: 1;"><span class="metric-icon">02</span><span class="metric-label">Pending evaluations</span><strong>{{ pending_count }}</strong><span class="metric-meta">Awaiting your review</span></article></div>
+<section class="content-panel animate-in" style="--delay: 2;"><div class="empty-state"><div class="empty-icon">◎</div><h3>Your review queue is ready</h3><p>Assigned projects and evaluation tools will appear here in the judging milestone.</p></div></section>
+{% endblock %}

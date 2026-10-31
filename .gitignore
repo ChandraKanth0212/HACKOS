@@ -1,0 +1,40 @@
+# Environment and secrets
+.env
+.env.local
+.env.*.local
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Flask instance and local databases
+instance/
+*.db
+*.sqlite
+*.sqlite3
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
+*.egg
+
+# Test and type-check caches
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Tooling / OS
+.idea/
+.vscode/
+*.log
+.DS_Store
+Thumbs.db

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Sign in · HACKOS{% endblock %}
+{% block body %}
+<main class="auth-page">
+  <section class="auth-card" aria-labelledby="login-title">
+    <a class="brand brand-lg" href="{{ url_for('main.home') }}"><span class="brand-mark">H</span> HACKOS</a>
+    <p class="eyebrow">Hackathon operations platform</p>
+    <h1 id="login-title">Welcome back</h1>
+    <p class="text-muted">Sign in to continue to your event workspace.</p>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}<div class="alert alert-{{ category }}" role="alert">{{ message }}</div>{% endfor %}
+    {% endwith %}
+    <form method="post" novalidate>
+      {{ form.hidden_tag() }}
+      <div class="mb-3">{{ form.email.label(class="form-label") }}{{ form.email(class="form-control", autocomplete="email", autofocus=true, placeholder="you@example.com") }}{% for error in form.email.errors %}<div class="field-error">{{ error }}</div>{% endfor %}</div>
+      <div class="mb-4">{{ form.password.label(class="form-label") }}{{ form.password(class="form-control", autocomplete="current-password", placeholder="Your password") }}{% for error in form.password.errors %}<div class="field-error">{{ error }}</div>{% endfor %}</div>
+      {{ form.submit(class="btn btn-primary w-100 btn-lg") }}
+    </form>
+    <p class="form-note">Your role is assigned securely from your account.</p>
+  </section>
+</main>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "dashboard/shell.html" %}
+{% block title %}Organizer dashboard · HACKOS{% endblock %}
+{% block page_title %}Organizer overview{% endblock %}
+{% block page_subtitle %}A live pulse of your event operations.{% endblock %}
+{% block dashboard_content %}
+<div class="sample-banner"><span class="status-dot"></span> Sample data · Synthetic demo event</div>
+<div class="metric-grid">{% for key, label, icon in [("participants", "Registered participants", "01"), ("teams", "Active teams", "02"), ("attendance", "Checked in", "03"), ("submissions", "Submissions received", "04")] %}<article class="metric-card animate-in" style="--delay: {{ loop.index0 }};"><span class="metric-icon">{{ icon }}</span><span class="metric-label">{{ label }}</span><strong>{{ metrics[key] }}</strong><span class="metric-meta">Live from database</span></article>{% endfor %}</div>
+<section class="content-panel animate-in" style="--delay: 4;"><div class="panel-heading"><div><p class="eyebrow">Event signal</p><h2>Keep the room moving</h2></div><span class="pill pill-success">Operational</span></div><div class="empty-state"><div class="empty-icon">✦</div><h3>Your command center is ready</h3><p>Participant, team, attendance and submission workflows will appear here as you operate the event.</p></div></section>
+{% endblock %}

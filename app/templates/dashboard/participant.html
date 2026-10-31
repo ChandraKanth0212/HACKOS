@@ -1,0 +1,8 @@
+{% extends "dashboard/shell.html" %}
+{% block title %}Participant dashboard · HACKOS{% endblock %}
+{% block page_title %}My event overview{% endblock %}
+{% block page_subtitle %}Everything you need for a smooth hackathon journey.{% endblock %}
+{% block dashboard_content %}
+<div class="sample-banner"><span class="status-dot"></span> Sample data · Synthetic demo event</div>
+<div class="status-grid"><article class="content-panel status-card animate-in" style="--delay: 0;"><span class="eyebrow">My team</span><h2>{{ team.name if team else "Not assigned" }}</h2><p>{{ team.team_code if team else "Your team will appear here when assigned." }}</p></article><article class="content-panel status-card animate-in" style="--delay: 1;"><span class="eyebrow">Attendance</span><h2>{{ "Checked in" if attendance else "Not checked in" }}</h2><p>{{ "Recorded by the event team." if attendance else "Your check-in status will appear here." }}</p></article><article class="content-panel status-card animate-in" style="--delay: 2;"><span class="eyebrow">Submission</span><h2>{{ submission.status|capitalize if submission else "Not submitted" }}</h2><p>{{ submission.project_title if submission else "Your project status will appear here." }}</p></article></div>
+{% endblock %}

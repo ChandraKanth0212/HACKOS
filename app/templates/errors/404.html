@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+{% block title %}Not found · HACKOS{% endblock %}
+{% block body %}<main class="error-page"><span class="error-code">404</span><h1>We could not find that page.</h1><p>The route may be part of a later milestone.</p><a class="btn btn-primary" href="{{ url_for('main.home') }}">Return home</a></main>{% endblock %}
