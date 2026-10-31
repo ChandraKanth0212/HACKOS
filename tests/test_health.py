@@ -9,6 +9,20 @@ def test_health_returns_ok(client):
     assert payload["service"] == "hackos"
 
 
+def test_render_postgres_url_is_normalized():
+    from config import _normalize_database_url
+
+    assert (
+        _normalize_database_url("postgres://user:pass@host/db")
+        == "postgresql+psycopg://user:pass@host/db"
+    )
+    assert (
+        _normalize_database_url("postgresql://user:pass@host/db")
+        == "postgresql+psycopg://user:pass@host/db"
+    )
+    assert _normalize_database_url("sqlite:///hackos.db") == "sqlite:///hackos.db"
+
+
 def test_create_app_requires_secret_key(monkeypatch):
     monkeypatch.delenv("SECRET_KEY", raising=False)
     monkeypatch.setenv("FLASK_ENV", "production")

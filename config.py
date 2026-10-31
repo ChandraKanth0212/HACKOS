@@ -19,12 +19,22 @@ def _debug_enabled():
     return _env_flag("FLASK_DEBUG", default=False)
 
 
+def _normalize_database_url(value):
+    if value and value.startswith("postgres://"):
+        return "postgresql+psycopg://" + value[len("postgres://") :]
+    if value and value.startswith("postgresql://"):
+        return "postgresql+psycopg://" + value[len("postgresql://") :]
+    return value
+
+
 class Config:
     SECRET_KEY = os.environ.get("SECRET_KEY")
     DEBUG = _debug_enabled()
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
+    SQLALCHEMY_DATABASE_URI = _normalize_database_url(
+        os.environ.get("DATABASE_URL")
+    )
 
     APP_TIMEZONE = os.environ.get("APP_TIMEZONE", "Asia/Kolkata")
 
@@ -42,7 +52,7 @@ class Config:
 
     @staticmethod
     def resolve_database_uri(instance_path):
-        configured = os.environ.get("DATABASE_URL")
+        configured = _normalize_database_url(os.environ.get("DATABASE_URL"))
         if configured:
             if configured == "sqlite:///hackos.db":
                 db_path = Path(instance_path) / "hackos.db"
